@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PayPoint.Services;
 
 namespace PayPoint.Controllers;
 
@@ -6,16 +7,20 @@ namespace PayPoint.Controllers;
 [Route("api/[controller]")]
 public class ChargeNotificationController : ControllerBase
 {
+    private readonly IChargeNotificationService _notificationService;
     private readonly ILogger<ChargeNotificationController> _logger;
 
-    public ChargeNotificationController(ILogger<ChargeNotificationController> logger)
+    public ChargeNotificationController(IChargeNotificationService notificationService,
+        ILogger<ChargeNotificationController> logger)
     {
+        _notificationService = notificationService;
         _logger = logger;
     }
 
-    [HttpGet("test")]
-    public IEnumerable<int> Get()
+    [HttpPost("generate")]
+    public IActionResult GenerateChargeNotifications()
     {
-        return Enumerable.Range(1, 4);
+        _notificationService.GenerateChargeNotifications();
+        return Ok("Charge notifications are being generated.");
     }
 }
