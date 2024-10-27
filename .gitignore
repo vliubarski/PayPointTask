@@ -1,0 +1,101 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (Mono Auto Generated)
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of NuGet restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/[Pp]ackages/repositories.config
+
+# Uncomment if using .NET Core or .NET 5/6
+# *.runtimeconfig.dev.json
+
+# Ignore app config transform files
+*.transform.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder for any LocalDB database files
+# DB/
+# App_Data/*.mdf
+# App_Data/*.ldf
+
+# Rider project files
+.idea/
+*.sln.iml
+
+# Ignore generated JSON files (settings, etc.)
+# *.json
+
+# Log and temporary files
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+
+# Visual Studio Code directory
+.vscode/
+
+# Visual Studio local history
+.vs/
+.vscode/
+
+# Include PayPoint source code folder
+!/PayPoint/
+
+# Ignore system files
+*.DS_Store
+*.lock
+
+# Ignore project-level user files
+*.csproj.user
+*.sln.user
+
+# Ignore build artifacts
+*.exe
+*.dll
+*.pdb
+*.app
+*.ipa
+*.dmg
+*.iso
+*.deb
+*.zip
+*.tar.gz
+*.log
+*.pyc
+
+# Ignore NuGet packages
+PayPoint/Packages/
+
+# Ignore unnecessary extensions
+*.swp
+*.bak
+
