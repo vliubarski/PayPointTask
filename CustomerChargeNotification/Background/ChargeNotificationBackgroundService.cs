@@ -1,4 +1,4 @@
-﻿namespace PayPoint.Services;
+﻿namespace CustomerChargeNotification.Services;
 
 public class ChargeNotificationBackgroundService : BackgroundService
 {
@@ -14,7 +14,7 @@ public class ChargeNotificationBackgroundService : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _notificationService.GenerateChargeNotifications();
-            await Task.Delay(TimeSpan.FromHours(24), stoppingToken); // Run daily
+            await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
         }
     }
 }

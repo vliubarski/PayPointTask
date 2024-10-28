@@ -1,4 +1,4 @@
-﻿namespace PayPoint.Models;
+﻿namespace CustomerChargeNotification.Models;
 
 public class CustomerGameCharge
 {
