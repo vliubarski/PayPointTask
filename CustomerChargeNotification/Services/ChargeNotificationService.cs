@@ -1,4 +1,5 @@
-﻿using CustomerChargeNotification.Domain;
+﻿using CustomerChargeNotification.Controllers;
+using CustomerChargeNotification.Domain;
 using CustomerChargeNotification.PDFGeneration;
 
 namespace CustomerChargeNotification.Services;
@@ -7,13 +8,14 @@ public class ChargeNotificationService : IChargeNotificationService
 {
     private readonly IChargeNotificationProcessor _chargeNotificationProcessor;
     private readonly IPdfGenerator _pdfGenerator;
+    private readonly ILogger<ChargeNotificationService> _logger;
 
-    public ChargeNotificationService(
-        IChargeNotificationProcessor processor,
-        IPdfGenerator pdfGenerator)
+    public ChargeNotificationService(IChargeNotificationProcessor processor,
+        IPdfGenerator pdfGenerator, ILogger<ChargeNotificationService> logger)
     {
-        _chargeNotificationProcessor = processor;
-        _pdfGenerator = pdfGenerator;
+        _chargeNotificationProcessor = processor ?? throw new ArgumentNullException(nameof(processor));
+        _pdfGenerator = pdfGenerator ?? throw new ArgumentNullException(nameof(pdfGenerator));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public void GenerateChargeNotifications()
@@ -23,7 +25,16 @@ public class ChargeNotificationService : IChargeNotificationService
 
         foreach (var notification in chargeNotifications)
         {
-            _pdfGenerator.Generate(notification);
+            try
+            {
+                _pdfGenerator.Generate(notification);
+                _logger.LogInformation("Successfully generated PDF for CustomerId {CustomerId}.", notification.CustomerId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to generate PDF for CustomerId {CustomerId}", notification.CustomerId);
+                throw;
+            }
         }
     }
 }
