@@ -1,6 +1,8 @@
-﻿namespace CustomerChargeNotification.Services;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace CustomerChargeNotification.Services;
 
 public interface IChargeNotificationService
 {
-    void GenerateChargeNotifications();
+    void GenerateChargeNotifications(DateTime date);
 }
