@@ -1,5 +1,4 @@
-﻿using CustomerChargeNotification.Controllers;
-using CustomerChargeNotification.Domain;
+﻿using CustomerChargeNotification.Domain;
 using CustomerChargeNotification.PDFGeneration;
 
 namespace CustomerChargeNotification.Services;
@@ -18,9 +17,8 @@ public class ChargeNotificationService : IChargeNotificationService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public void GenerateChargeNotifications()
+    public void GenerateChargeNotifications(DateTime date)
     {
-        DateTime date = new DateTime(2021, 5, 20);
         var chargeNotifications = _chargeNotificationProcessor.GetChargeNotificationsForDate(date);
 
         foreach (var notification in chargeNotifications)

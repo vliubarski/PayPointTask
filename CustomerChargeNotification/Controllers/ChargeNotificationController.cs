@@ -20,7 +20,7 @@ public class ChargeNotificationController : ControllerBase
     [HttpPost("generate")]
     public IActionResult GenerateChargeNotifications()
     {
-        _notificationService.GenerateChargeNotifications();
+        _notificationService.GenerateChargeNotifications(new DateTime(2021, 5, 20));
         return Ok("Charge notifications are being generated.");
     }
 }

@@ -13,7 +13,8 @@ public class ChargeNotificationBackgroundService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            _notificationService.GenerateChargeNotifications();
+            var date = new DateTime(2021, 5, 20);
+            _notificationService.GenerateChargeNotifications(date);
             await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
         }
     }
