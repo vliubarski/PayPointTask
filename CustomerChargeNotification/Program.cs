@@ -1,7 +1,9 @@
-using PayPoint.DAL;
-using PayPoint.Domain;
-using PayPoint.PDFGeneration;
-using PayPoint.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using CustomerChargeNotification.DAL;
+using CustomerChargeNotification.Domain;
+using CustomerChargeNotification.PDFGeneration;
+using CustomerChargeNotification.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +14,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ICustomerGameChargeRepository, CustomerGameChargeRepository>();
-builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
+builder.Services.AddDbContext<CustomerGameChargeContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ICustomerGameChargeRepository, CustomerGameChargeRepository>();
+
+
+builder.Services.AddDbContext<CustomerContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 builder.Services.AddTransient<IChargeNotificationService, ChargeNotificationService>();
 builder.Services.AddTransient<IPdfGenerator, PdfGenerator>();

@@ -1,7 +1,7 @@
-﻿using PayPoint.Models;
+﻿using CustomerChargeNotification.Models;
 using System.Reflection.Metadata;
 
-namespace PayPoint.PDFGeneration;
+namespace CustomerChargeNotification.PDFGeneration;
 
 public class PdfGenerator : IPdfGenerator
 {

@@ -1,4 +1,4 @@
-﻿namespace PayPoint.Services;
+﻿namespace CustomerChargeNotification.Services;
 
 public interface IChargeNotificationService
 {

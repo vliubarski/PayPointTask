@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using PayPoint.Services;
+using CustomerChargeNotification.Services;
 
-namespace PayPoint.Controllers;
+namespace CustomerChargeNotification.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
