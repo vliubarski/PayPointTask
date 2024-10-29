@@ -5,10 +5,10 @@ using CustomerChargeNotification.PDFGeneration;
 using CustomerChargeNotification.Services;
 using CustomerChargeNotification.PdfUtils;
 using iText.Kernel.Pdf;
+using Hangfire;
+using CustomerChargeNotification.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -18,7 +18,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CustomerGameChargeContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ICustomerGameChargeRepository, CustomerGameChargeRepository>();
-
 
 builder.Services.AddDbContext<CustomerContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -40,6 +39,11 @@ builder.Services.AddScoped<IPdfGenerator>(sp =>
 builder.Services.AddScoped<IPdfSaver, PdfSaver>();
 builder.Services.AddSingleton<IFileSystem, FileSystem>();
 
+builder.Services.AddHangfire(config =>
+        config.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
+builder.Services.AddHangfireServer();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,5 +58,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+HangfireConfig.ConfigureHangfireJobs(app, builder.Configuration);
 
 app.Run();

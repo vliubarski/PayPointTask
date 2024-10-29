@@ -59,6 +59,8 @@ ehthumbs.db
 *.tlog
 *.vspscc
 *.vssscc
+*.dbmdl
+*.jfm
 
 # Visual Studio Code directory
 .vscode/
