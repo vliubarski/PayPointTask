@@ -1,1 +1,2 @@
 ﻿EXEC PopulateCustomers;
+EXEC PopulateCustomerGameCharge;
