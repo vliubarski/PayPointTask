@@ -29,7 +29,7 @@ public class ChargeNotificationServiceTests
     }
 
     [Test]
-    public void GenerateChargeNotifications_ShouldGeneratePdfs_WhenNotificationsExist()
+    public async Task GenerateChargeNotifications_ShouldGeneratePdfs_WhenNotificationsExist()
     {
         // Arrange
         var date = new DateTime(2021, 5, 20);
@@ -44,7 +44,7 @@ public class ChargeNotificationServiceTests
         _mockProcessor.Setup(p => p.GetChargeNotificationsForDate(date)).Returns(notifications);
 
         // Act
-        _service.GenerateChargeNotifications(date);
+        await _service.GenerateChargeNotifications(date);
 
         // Assert
         _mockPdfService.Verify(s => s.SaveToFile(It.IsAny<ChargeNotification>()), Times.Exactly(2));
@@ -79,7 +79,7 @@ public class ChargeNotificationServiceTests
         _mockPdfService.Setup(s => s.SaveToFile(It.IsAny<ChargeNotification>())).Throws(new Exception("PDF generation error"));
 
         // Act & Assert
-        var ex = Assert.Throws<Exception>(() => _service.GenerateChargeNotifications(date));
+        var ex = Assert.ThrowsAsync<Exception>(async () => await _service.GenerateChargeNotifications(date));
         Assert.That(ex.Message, Is.EqualTo("PDF generation error"));
 
         _mockLogger.Verify(logger => logger.Log(
@@ -91,14 +91,14 @@ public class ChargeNotificationServiceTests
     }
 
     [Test]
-    public void GenerateChargeNotifications_ShouldNotAttemptToGeneratePdfs_WhenNoNotificationsExist()
+    public async Task GenerateChargeNotifications_ShouldNotAttemptToGeneratePdfs_WhenNoNotificationsExist()
     {
         // Arrange
         var date = new DateTime(2021, 5, 20);
         _mockProcessor.Setup(p => p.GetChargeNotificationsForDate(date)).Returns(new List<ChargeNotification>());
 
         // Act
-        _service.GenerateChargeNotifications(date);
+        await _service.GenerateChargeNotifications(date);
 
         // Assert
         _mockPdfService.Verify(s => s.SaveToFile(It.IsAny<ChargeNotification>()), Times.Never); // No PDF should be generated
@@ -108,6 +108,6 @@ public class ChargeNotificationServiceTests
          It.Is<EventId>(eventId => eventId.Id == 0),
          It.Is<It.IsAnyType>((@object, @type) => true),
          It.IsAny<Exception>(),
-         It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
+         It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Exactly(2));
     }
 }

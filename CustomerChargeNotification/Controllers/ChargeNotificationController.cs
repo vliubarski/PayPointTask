@@ -18,9 +18,9 @@ public class ChargeNotificationController : ControllerBase
     }
 
     [HttpPost("generate")]
-    public IActionResult GenerateChargeNotifications()
+    public async Task<IActionResult> GenerateChargeNotifications()
     {
-        _notificationService.GenerateChargeNotifications(new DateTime(2021, 5, 20));
-        return Ok("Charge notifications are being generated.");
+        await _notificationService.GenerateChargeNotifications(new DateTime(2021, 5, 21));
+        return Ok("Charge notifications generated.");
     }
 }

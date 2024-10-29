@@ -17,22 +17,28 @@ public class ChargeNotificationService : IChargeNotificationService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public void GenerateChargeNotifications(DateTime date)
+    public async Task GenerateChargeNotifications(DateTime date)
     {
-        var chargeNotifications = _chargeNotificationProcessor.GetChargeNotificationsForDate(date);
+        _logger.LogInformation("Charge Notifications generating started at {time}", DateTime.UtcNow);
 
-        foreach (var notification in chargeNotifications)
+        await Task.Run(() =>
         {
-            try
+            var chargeNotifications = _chargeNotificationProcessor.GetChargeNotificationsForDate(date);
+
+            foreach (var notification in chargeNotifications)
             {
-                _pdfService.SaveToFile(notification);
-                _logger.LogInformation("Successfully generated PDF for CustomerId {CustomerId}.", notification.CustomerId);
+                try
+                {
+                    _pdfService.SaveToFile(notification);
+                    _logger.LogInformation("Successfully generated PDF for CustomerId {CustomerId}.", notification.CustomerId);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to generate PDF for CustomerId {CustomerId}", notification.CustomerId);
+                    throw;
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to generate PDF for CustomerId {CustomerId}", notification.CustomerId);
-                throw;
-            }
-        }
+        });
+        _logger.LogInformation("Charge Notifications generating finished at {time}", DateTime.UtcNow);
     }
 }

@@ -2,5 +2,6 @@
 
 public interface IChargeNotificationService
 {
-    void GenerateChargeNotifications(DateTime date);
+    Task GenerateChargeNotifications(DateTime date);
+
 }
