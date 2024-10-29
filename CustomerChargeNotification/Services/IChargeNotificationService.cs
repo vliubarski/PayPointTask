@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace CustomerChargeNotification.Services;
+﻿namespace CustomerChargeNotification.Services;
 
 public interface IChargeNotificationService
 {

@@ -6,14 +6,14 @@ namespace CustomerChargeNotification.Services;
 public class ChargeNotificationService : IChargeNotificationService
 {
     private readonly IChargeNotificationProcessor _chargeNotificationProcessor;
-    private readonly IPdfGenerator _pdfGenerator;
+    private readonly IPdfService _pdfService;
     private readonly ILogger<ChargeNotificationService> _logger;
 
     public ChargeNotificationService(IChargeNotificationProcessor processor,
-        IPdfGenerator pdfGenerator, ILogger<ChargeNotificationService> logger)
+        IPdfService pdfService, ILogger<ChargeNotificationService> logger)
     {
         _chargeNotificationProcessor = processor ?? throw new ArgumentNullException(nameof(processor));
-        _pdfGenerator = pdfGenerator ?? throw new ArgumentNullException(nameof(pdfGenerator));
+        _pdfService = pdfService ?? throw new ArgumentNullException(nameof(pdfService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -25,7 +25,7 @@ public class ChargeNotificationService : IChargeNotificationService
         {
             try
             {
-                _pdfGenerator.Generate(notification);
+                _pdfService.SaveToFile(notification);
                 _logger.LogInformation("Successfully generated PDF for CustomerId {CustomerId}.", notification.CustomerId);
             }
             catch (Exception ex)

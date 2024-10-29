@@ -12,19 +12,19 @@ public class ChargeNotificationServiceTests
 {
     private ChargeNotificationService _service;
     private Mock<IChargeNotificationProcessor> _mockProcessor;
-    private Mock<IPdfGenerator> _mockPdfGenerator;
+    private Mock<IPdfService> _mockPdfService;
     private Mock<ILogger<ChargeNotificationService>> _mockLogger;
 
     [SetUp]
     public void SetUp()
     {
         _mockProcessor = new Mock<IChargeNotificationProcessor>();
-        _mockPdfGenerator = new Mock<IPdfGenerator>();
+        _mockPdfService = new Mock<IPdfService>(); 
         _mockLogger = new Mock<ILogger<ChargeNotificationService>>();
 
         _service = new ChargeNotificationService(
             _mockProcessor.Object,
-            _mockPdfGenerator.Object,
+            _mockPdfService.Object,
             _mockLogger.Object);
     }
 
@@ -47,7 +47,7 @@ public class ChargeNotificationServiceTests
         _service.GenerateChargeNotifications(date);
 
         // Assert
-        _mockPdfGenerator.Verify(g => g.Generate(It.IsAny<ChargeNotification>()), Times.Exactly(2));
+        _mockPdfService.Verify(s => s.SaveToFile(It.IsAny<ChargeNotification>()), Times.Exactly(2));
 
         _mockLogger.Verify(logger => logger.Log(
             It.Is<LogLevel>(logLevel => logLevel == LogLevel.Information),
@@ -76,7 +76,7 @@ public class ChargeNotificationServiceTests
         };
 
         _mockProcessor.Setup(p => p.GetChargeNotificationsForDate(date)).Returns(notifications);
-        _mockPdfGenerator.Setup(g => g.Generate(It.IsAny<ChargeNotification>())).Throws(new Exception("PDF generation error"));
+        _mockPdfService.Setup(s => s.SaveToFile(It.IsAny<ChargeNotification>())).Throws(new Exception("PDF generation error"));
 
         // Act & Assert
         var ex = Assert.Throws<Exception>(() => _service.GenerateChargeNotifications(date));
@@ -101,7 +101,7 @@ public class ChargeNotificationServiceTests
         _service.GenerateChargeNotifications(date);
 
         // Assert
-        _mockPdfGenerator.Verify(g => g.Generate(It.IsAny<ChargeNotification>()), Times.Never); // No PDF should be generated
+        _mockPdfService.Verify(s => s.SaveToFile(It.IsAny<ChargeNotification>()), Times.Never); // No PDF should be generated
 
         _mockLogger.Verify(logger => logger.Log(
          It.Is<LogLevel>(logLevel => logLevel == LogLevel.Information),

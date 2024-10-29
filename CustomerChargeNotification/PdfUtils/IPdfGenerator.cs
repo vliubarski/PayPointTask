@@ -4,5 +4,5 @@ namespace CustomerChargeNotification.PDFGeneration;
 
 public interface IPdfGenerator
 {
-    void Generate(ChargeNotification notification);
+    byte[] GetPdfData(ChargeNotification notification);
 }

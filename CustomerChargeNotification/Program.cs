@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using CustomerChargeNotification.DAL;
 using CustomerChargeNotification.Domain;
 using CustomerChargeNotification.PDFGeneration;
 using CustomerChargeNotification.Services;
+using CustomerChargeNotification.PdfUtils;
+using iText.Kernel.Pdf;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +25,20 @@ builder.Services.AddDbContext<CustomerContext>(options =>
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 builder.Services.AddTransient<IChargeNotificationService, ChargeNotificationService>();
-builder.Services.AddTransient<IPdfGenerator, PdfGenerator>();
 builder.Services.AddTransient<IChargeNotificationProcessor, ChargeNotificationProcessor>();
 
+builder.Services.Configure<PdfSettings>(builder.Configuration.GetSection("PdfSettings"));
+
+builder.Services.AddScoped<IPdfService, PdfService>();
+
+builder.Services.AddScoped<IPdfGenerator>(sp =>
+    new PdfGenerator(
+        memoryStreamFactory: () => new MemoryStream(),
+        pdfWriterFactory: ms => new PdfWriter(ms)
+    ));
+
+builder.Services.AddScoped<IPdfSaver, PdfSaver>();
+builder.Services.AddSingleton<IFileSystem, FileSystem>();
 
 var app = builder.Build();
 
