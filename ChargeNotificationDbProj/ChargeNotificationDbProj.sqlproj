@@ -63,6 +63,7 @@
     <Build Include="Tables\Customer.sql" />
     <Build Include="Tables\CustomerGameCharge.sql" />
     <Build Include="Scripts\PopulateCustomer.sql" />
+    <Build Include="Scripts\PopulateCustomerGameCharge.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ChargeNotificationDbProj.refactorlog" />
