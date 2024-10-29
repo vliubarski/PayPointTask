@@ -2,6 +2,6 @@
 {
     public interface IPdfSaver
     {
-        void SaveToFile(byte[] pdfData, string fileName);
+        Task SaveToFileAsync(byte[] pdfData, string fileName);
     }
 }

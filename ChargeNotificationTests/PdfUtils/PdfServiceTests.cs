@@ -20,7 +20,7 @@ public class PdfServiceTests
     }
 
     [Test]
-    public void SaveToFile_ShouldGeneratePdfData_AndSaveToFile()
+    public async Task SaveToFile_ShouldGeneratePdfData_AndSaveToFile()
     {
         // Arrange
         var chargeNotification = new ChargeNotification
@@ -36,15 +36,15 @@ public class PdfServiceTests
         _mockPdfGenerator.Setup(g => g.GetPdfData(chargeNotification)).Returns(pdfData);
 
         // Act
-        _pdfService.SaveToFile(chargeNotification);
+        await _pdfService.SaveToFileAsync(chargeNotification);
 
         // Assert
         _mockPdfGenerator.Verify(g => g.GetPdfData(chargeNotification), Times.Once, "GetPdfData should be called once.");
-        _mockPdfSaver.Verify(s => s.SaveToFile(pdfData, It.IsAny<string>()), Times.Once, "SaveToFile should be called once.");
+        _mockPdfSaver.Verify(s => s.SaveToFileAsync(pdfData, It.IsAny<string>()), Times.Once, "SaveToFile should be called once.");
 
         // Verify the correct filename is being used
         // Since DateTime.UtcNow is used in the filename, we check that the file name starts with the date format.
         string actualFileName = $"{DateTime.UtcNow:yyyy-MM-dd} {chargeNotification.CustomerName}.pdf";
-        _mockPdfSaver.Verify(s => s.SaveToFile(pdfData, actualFileName), Times.Once, "SaveToFile should be called with the correct filename.");
+        _mockPdfSaver.Verify(s => s.SaveToFileAsync(pdfData, actualFileName), Times.Once, "SaveToFile should be called with the correct filename.");
     }
 }

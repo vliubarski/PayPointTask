@@ -31,7 +31,7 @@ public class PdfSaverTests
     }
 
     [Test]
-    public void SaveToFile_ShouldCreateDirectory_IfNotExists()
+    public async Task SaveToFile_ShouldCreateDirectory_IfNotExists()
     {
         // Arrange
         byte[] pdfData = [1, 2, 3];
@@ -40,14 +40,14 @@ public class PdfSaverTests
         _mockFileSystem.Setup(fs => fs.DirectoryExists(_pdfSettings.OutputDirectory)).Returns(false);
 
         // Act
-        _pdfSaver.SaveToFile(pdfData, fileName);
+        await _pdfSaver.SaveToFileAsync(pdfData, fileName); 
 
         // Assert
         _mockFileSystem.Verify(fs => fs.CreateDirectory(_pdfSettings.OutputDirectory), Times.Once);
     }
 
     [Test]
-    public void SaveToFile_ShouldSavePdfFile_AtCorrectPath()
+    public async Task SaveToFile_ShouldSavePdfFile_AtCorrectPathAsync()
     {
         // Arrange
         byte[] pdfData = [1, 2, 3];
@@ -57,14 +57,14 @@ public class PdfSaverTests
         _mockFileSystem.Setup(fs => fs.DirectoryExists(_pdfSettings.OutputDirectory)).Returns(true);
 
         // Act
-        _pdfSaver.SaveToFile(pdfData, fileName);
+        await _pdfSaver.SaveToFileAsync(pdfData, fileName);
 
         // Assert
-        _mockFileSystem.Verify(fs => fs.WriteAllBytes(expectedFilePath, pdfData), Times.Once);
+        _mockFileSystem.Verify(fs => fs.WriteAllBytesAsync(expectedFilePath, pdfData), Times.Once);
     }
 
     [Test]
-    public void SaveToFile_ShouldNotCreateDirectory_IfAlreadyExists()
+    public async Task SaveToFile_ShouldNotCreateDirectory_IfAlreadyExistsAsync()
     {
         // Arrange
         byte[] pdfData = [1, 2, 3];
@@ -73,7 +73,7 @@ public class PdfSaverTests
         _mockFileSystem.Setup(fs => fs.DirectoryExists(_pdfSettings.OutputDirectory)).Returns(true);
 
         // Act
-        _pdfSaver.SaveToFile(pdfData, fileName);
+        await _pdfSaver.SaveToFileAsync(pdfData, fileName);
 
         // Assert
         _mockFileSystem.Verify(fs => fs.CreateDirectory(It.IsAny<string>()), Times.Never, "CreateDirectory should not be called if directory already exists.");
@@ -89,10 +89,10 @@ public class PdfSaverTests
 
         _mockFileSystem.Setup(fs => fs.DirectoryExists(_pdfSettings.OutputDirectory)).Returns(true);
 
-        _mockFileSystem.Setup(fs => fs.WriteAllBytes(expectedFilePath, pdfData)).Throws(new UnauthorizedAccessException("Access denied."));
+        _mockFileSystem.Setup(fs => fs.WriteAllBytesAsync(expectedFilePath, pdfData)).Throws(new UnauthorizedAccessException("Access denied."));
 
         // Act & Assert
-        var ex = Assert.Throws<UnauthorizedAccessException>(() => _pdfSaver.SaveToFile(pdfData, fileName));
+        var ex = Assert.ThrowsAsync<UnauthorizedAccessException>(() => _pdfSaver.SaveToFileAsync(pdfData, fileName));
         Assert.That(ex.Message, Is.EqualTo("Access denied."), "Should throw UnauthorizedAccessException when write access is denied.");
     }
 }

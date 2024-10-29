@@ -20,7 +20,7 @@ public class ChargeNotificationController : ControllerBase
     [HttpPost("generate")]
     public async Task<IActionResult> GenerateChargeNotifications()
     {
-        await _notificationService.GenerateChargeNotifications(new DateTime(2021, 5, 21));
+        await _notificationService.GenerateChargeNotifications(DateTime.UtcNow);
         return Ok("Charge notifications generated.");
     }
 }

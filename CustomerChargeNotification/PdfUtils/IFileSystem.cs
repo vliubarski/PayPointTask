@@ -4,5 +4,5 @@ public interface IFileSystem
 {
     void CreateDirectory(string path);
     bool DirectoryExists(string path);
-    void WriteAllBytes(string path, byte[] bytes);
+    Task WriteAllBytesAsync(string path, byte[] bytes) => File.WriteAllBytesAsync(path, bytes);
 }

@@ -21,24 +21,35 @@ public class ChargeNotificationService : IChargeNotificationService
     {
         _logger.LogInformation("Charge Notifications generating started at {time}", DateTime.UtcNow);
 
-        await Task.Run(() =>
-        {
-            var chargeNotifications = _chargeNotificationProcessor.GetChargeNotificationsForDate(date);
+        var chargeNotifications = _chargeNotificationProcessor.GetChargeNotificationsForDate(date);
 
-            foreach (var notification in chargeNotifications)
+        const int batchSize = 100;
+        const int maxParallelism = 20;
+
+        // Process notifications in batches
+        var batchTasks = new List<Task>();
+        foreach (var batch in chargeNotifications.Batch(batchSize))
+        {
+            var batchTask = Task.Run(async () =>
             {
-                try
+                await Parallel.ForEachAsync(batch, new ParallelOptions { MaxDegreeOfParallelism = maxParallelism }, async (notification, _) =>
                 {
-                    _pdfService.SaveToFile(notification);
-                    _logger.LogInformation("Successfully generated PDF for CustomerId {CustomerId}.", notification.CustomerId);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Failed to generate PDF for CustomerId {CustomerId}", notification.CustomerId);
-                    throw;
-                }
-            }
-        });
+                    try
+                    {
+                        await _pdfService.SaveToFileAsync(notification);
+                        _logger.LogInformation("Successfully generated PDF for CustomerId {CustomerId}.", notification.CustomerId);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to generate PDF for CustomerId {CustomerId}", notification.CustomerId);
+                        throw;
+                    }
+                });
+            });
+            batchTasks.Add(batchTask);
+        }
+
+        await Task.WhenAll(batchTasks);
         _logger.LogInformation("Charge Notifications generating finished at {time}", DateTime.UtcNow);
     }
 }

@@ -7,5 +7,5 @@ public class FileSystem : IFileSystem
 
     public void CreateDirectory(string path) => Directory.CreateDirectory(path);
 
-    public void WriteAllBytes(string path, byte[] bytes) => File.WriteAllBytes(path, bytes);
+    public Task WriteAllBytesAsync(string path, byte[] bytes) => File.WriteAllBytesAsync(path, bytes);
 }

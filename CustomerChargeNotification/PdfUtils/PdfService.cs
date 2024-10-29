@@ -13,11 +13,11 @@ public class PdfService : IPdfService
         _pdfSaver = pdfSaver;
     }
 
-    public void SaveToFile(ChargeNotification chargeNotification)
+    public async Task SaveToFileAsync(ChargeNotification chargeNotification)
     {
         var fieName = DateTime.UtcNow.ToString("yyyy-MM-dd ") + chargeNotification.CustomerName + ".pdf";
 
         var data = _pdfGenerator.GetPdfData(chargeNotification);
-        _pdfSaver.SaveToFile(data, fieName);
+        await _pdfSaver.SaveToFileAsync(data, fieName);
     }
 }

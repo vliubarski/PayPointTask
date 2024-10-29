@@ -14,7 +14,7 @@ public class PdfSaver : IPdfSaver
         _fileSystem = fileSystem;
     }
 
-    public void SaveToFile(byte[] pdfData, string fileName)
+    public async Task SaveToFileAsync(byte[] pdfData, string fileName)
     {
         if (!_fileSystem.DirectoryExists(_settings.OutputDirectory))
         {
@@ -23,6 +23,6 @@ public class PdfSaver : IPdfSaver
 
         string filePath = Path.Combine(_settings.OutputDirectory, fileName);
 
-        _fileSystem.WriteAllBytes(filePath, pdfData);
+        await _fileSystem.WriteAllBytesAsync(filePath, pdfData);
     }
 }

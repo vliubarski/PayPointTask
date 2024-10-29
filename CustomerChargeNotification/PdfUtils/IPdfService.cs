@@ -4,6 +4,6 @@ namespace CustomerChargeNotification.PDFGeneration
 {
     public interface IPdfService
     {
-        void SaveToFile(ChargeNotification chargeNotification);
+        Task SaveToFileAsync(ChargeNotification chargeNotification);
     }
 }
