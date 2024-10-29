@@ -9,7 +9,6 @@ BEGIN
     -- Ensure there's an existing range of CustomerIds in the Customer table
     SELECT @MinCustomerId = MIN(Id), @MaxCustomerId = MAX(Id) FROM Customer;
 
-    -- Temporary variables for the record data
     DECLARE @GameName NVARCHAR(50), 
             @Description NVARCHAR(50), 
             @TotalCost FLOAT, 
