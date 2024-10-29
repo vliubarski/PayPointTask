@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[CustomerGameCharges]
+﻿CREATE TABLE [dbo].[CustomerGameCharge]
 (
     [Id] INT NOT NULL PRIMARY KEY, 
     [GameName] NVARCHAR(50) NOT NULL, 
@@ -6,5 +6,5 @@
     [TotalCost] FLOAT NOT NULL, 
     [ChargeDate] DATE NOT NULL, 
     [CustomerId] INT NOT NULL, 
-    CONSTRAINT [FK_CustomerGameCharges_ToTable] FOREIGN KEY ([CustomerId]) REFERENCES [Customers]([Id]), 
+    CONSTRAINT [FK_CustomerGameCharge_ToTable] FOREIGN KEY ([CustomerId]) REFERENCES [Customer]([Id]), 
 )

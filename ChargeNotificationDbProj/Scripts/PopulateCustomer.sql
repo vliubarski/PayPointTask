@@ -5,7 +5,7 @@ BEGIN
 
     WHILE @count <= 40000
     BEGIN
-        INSERT INTO dbo.Customers (Id, Name)
+        INSERT INTO dbo.Customer (Id, Name)
         VALUES (@count, 'Customer' + CONVERT(VARCHAR(10), @count));
 
         SET @count = @count + 1;
