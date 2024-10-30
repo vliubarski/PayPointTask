@@ -11,7 +11,7 @@ BEGIN
 
     DECLARE @GameName NVARCHAR(50), 
             @Description NVARCHAR(50), 
-            @TotalCost FLOAT, 
+            @TotalCost INT, 
             @CustomerId INT;
 
     DECLARE @ChargeDate DATE = CAST(GETDATE() AS DATE);
@@ -26,7 +26,7 @@ BEGIN
     BEGIN
         SET @GameName = 'Game_' + CAST(ABS(CHECKSUM(NEWID())) % 100 + 1 AS NVARCHAR(50));
         SET @Description = 'Description_' + CAST(ABS(CHECKSUM(NEWID())) % 1000 + 1 AS NVARCHAR(50));
-        SET @TotalCost = ROUND((RAND() * 100), 2); 
+        SET @TotalCost = ROUND((RAND() * 98) + 1, 2); 
         SET @CustomerId = @MinCustomerId + ABS(CHECKSUM(NEWID())) % (@MaxCustomerId - @MinCustomerId + 1);
 
         INSERT INTO dbo.CustomerGameCharge (Id, GameName, Description, TotalCost, ChargeDate, CustomerId)
