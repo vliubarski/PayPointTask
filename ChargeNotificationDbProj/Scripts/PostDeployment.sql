@@ -1,2 +1,2 @@
 ﻿EXEC PopulateCustomers;
-EXEC PopulateCustomerGameCharge;
+--EXEC PopulateCustomerGameCharge;

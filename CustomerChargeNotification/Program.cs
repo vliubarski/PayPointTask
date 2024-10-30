@@ -2,11 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using CustomerChargeNotification.DAL;
 using CustomerChargeNotification.Domain;
 using CustomerChargeNotification.PDFGeneration;
-using CustomerChargeNotification.Services;
 using CustomerChargeNotification.PdfUtils;
 using iText.Kernel.Pdf;
 using Hangfire;
 using CustomerChargeNotification.Infrastructure;
+using CustomerChargeNotification.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿using CustomerChargeNotification.Domain;
 using CustomerChargeNotification.PDFGeneration;
 
-namespace CustomerChargeNotification.Services;
+namespace CustomerChargeNotification.BackgroundServices;
 
 public class ChargeNotificationService : IChargeNotificationService
 {

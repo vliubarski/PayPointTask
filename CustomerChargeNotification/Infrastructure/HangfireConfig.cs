@@ -1,4 +1,4 @@
-using CustomerChargeNotification.Services;
+using CustomerChargeNotification.BackgroundServices;
 using Hangfire;
 
 namespace CustomerChargeNotification.Infrastructure;

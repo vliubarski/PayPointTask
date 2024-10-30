@@ -1,7 +1,6 @@
-﻿namespace CustomerChargeNotification.PDFGeneration
+﻿namespace CustomerChargeNotification.PDFGeneration;
+
+public interface IPdfSaver
 {
-    public interface IPdfSaver
-    {
-        Task SaveToFileAsync(byte[] pdfData, string fileName);
-    }
+    Task SaveToFileAsync(byte[] pdfData, string fileName);
 }

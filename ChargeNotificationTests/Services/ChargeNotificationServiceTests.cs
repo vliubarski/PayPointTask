@@ -1,7 +1,7 @@
-﻿using CustomerChargeNotification.Domain;
+﻿using CustomerChargeNotification.BackgroundServices;
+using CustomerChargeNotification.Domain;
 using CustomerChargeNotification.Models;
 using CustomerChargeNotification.PDFGeneration;
-using CustomerChargeNotification.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
 

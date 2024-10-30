@@ -1,9 +1,8 @@
 ﻿using CustomerChargeNotification.Models;
 
-namespace CustomerChargeNotification.PDFGeneration
+namespace CustomerChargeNotification.PDFGeneration;
+
+public interface IPdfService
 {
-    public interface IPdfService
-    {
-        Task SaveToFileAsync(ChargeNotification chargeNotification);
-    }
+    Task SaveToFileAsync(ChargeNotification chargeNotification);
 }

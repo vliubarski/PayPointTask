@@ -1,4 +1,4 @@
-﻿namespace CustomerChargeNotification.Services;
+﻿namespace CustomerChargeNotification.BackgroundServices;
 
 /// <summary>
 /// This extention a helper to create batch of 
